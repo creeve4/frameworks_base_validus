@@ -1015,11 +1015,9 @@ public class Typeface {
 
         if (themeConfigFile.exists()) {
             // /data/system/theme/fonts/ exits so use it and copy default fonts
-            Log.d("projekt", "using theme file");
             configFile = themeConfigFile;
             fontDir = getThemeFontDirLocation();
         } else {
-            Log.d("projekt", "using system file");
             configFile = systemConfigFile;
             fontDir = getSystemFontDirLocation();
         }
@@ -1031,10 +1029,6 @@ public class Typeface {
             if (configFile == themeConfigFile) {
                 systemFontConfig = FontListParser.parse(systemConfigFile,
                         getSystemFontDirLocation().getAbsolutePath());
-                // TODO: Redo these methods
-                //addFallbackFontsForFamilyName(systemFontConfig, fontConfig, SANS_SERIF_FAMILY_NAME);
-                //addMissingFontFamilies(systemFontConfig, fontConfig);
-                //addMissingFontAliases(systemFontConfig, fontConfig);
             }
 
             Map<String, ByteBuffer> bufferForPath = new HashMap<String, ByteBuffer>();
