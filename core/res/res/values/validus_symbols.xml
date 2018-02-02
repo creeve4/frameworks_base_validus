@@ -67,4 +67,7 @@
 
     <java-symbol type="bool" name="config_canForceDozeNotifications" />
 
+    <!-- High Brightness Mode -->
+    <java-symbol type="bool" name="config_supportHighBrightness" />
+
 </resources>
