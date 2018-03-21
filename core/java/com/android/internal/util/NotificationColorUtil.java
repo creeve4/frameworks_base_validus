@@ -402,6 +402,10 @@ public class NotificationColorUtil {
         return findContrastColorAgainstDark(color, Color.BLACK, true /* fg */, 12);
     }
 
+    public static int ensureHeaderTextContrastOnBlack(int color) {
+        return findContrastColorAgainstDark(color, Color.BLACK, true /* fg */, 4);
+    }
+
      /**
      * Finds a large text color with sufficient contrast over bg that has the same or darker hue as
      * the original color, depending on the value of {@code isBgDarker}.
@@ -521,7 +525,7 @@ public class NotificationColorUtil {
         if (!context.getResources().getBoolean(R.bool.config_allowNotificationIconTextTinting)) {
             color = context.getColor(R.color.notification_ambient_default_color);
         } else {
-            color = NotificationColorUtil.ensureTextContrastOnBlack(color);
+            color = NotificationColorUtil.ensureHeaderTextContrastOnBlack(color);
         }
 
         if (color != resolvedColor) {
