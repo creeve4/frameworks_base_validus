@@ -403,7 +403,7 @@ public class NotificationColorUtil {
     }
 
     public static int ensureHeaderTextContrastOnBlack(int color) {
-        return findContrastColorAgainstDark(color, Color.BLACK, true /* fg */, 4);
+        return findContrastColorAgainstDark(color, Color.BLACK, true /* fg */, 5);
     }
 
      /**
@@ -414,8 +414,8 @@ public class NotificationColorUtil {
      */
     public static int ensureLargeTextContrast(int color, int bg, boolean isBgDarker) {
         return isBgDarker
-                ? findContrastColorAgainstDark(color, bg, true, 3)
-                : findContrastColor(color, bg, true, 3);
+                ? findContrastColorAgainstDark(color, bg, true, 2)
+                : findContrastColor(color, bg, true, 2);
     }
 
     /**
@@ -426,8 +426,8 @@ public class NotificationColorUtil {
      */
     private static int ensureTextContrast(int color, int bg, boolean isBgDarker) {
         return isBgDarker
-                ? findContrastColorAgainstDark(color, bg, true, 4.5)
-                : findContrastColor(color, bg, true, 4.5);
+                ? findContrastColorAgainstDark(color, bg, true, 3)
+                : findContrastColor(color, bg, true, 3);
     }
 
     /** Finds a background color for a text view with given text color and hint text color, that
