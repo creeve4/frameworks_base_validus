@@ -298,12 +298,7 @@ public class KeyguardIndicationController {
                     mTextView.setTextColor(Color.WHITE);
                     mTextView.switchIndication(mTransientIndication);
                 } else {
-                    // Use the high voltage symbol ⚡ (u26A1 unicode) but prevent the system
-                    // to load its emoji colored variant with the uFE0E flag
-                    String bolt = "\u26A1\uFE0E";
-                    CharSequence chargeIndicator = (mPowerPluggedIn ? (bolt + " ") : "") +
-                            NumberFormat.getPercentInstance().format(mLevel / 100f);
-                    mTextView.switchIndication(chargeIndicator);
+                    mTextView.switchIndication(null);
                 }
                 return;
             }
