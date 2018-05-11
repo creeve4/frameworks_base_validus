@@ -1,7 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-/*
- * Copyright 2010, The Android Open Source Project
+/**
+ * Copyright (c) 2010, The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
--->
-<resources>
-    <color name="battery_level_good_color">#ff319111</color><!-- green -->
 
-    <!-- Floating action button -->
-    <color name="fab_color">@*android:color/material_deep_teal_500</color>
-    <color name="floating_action_button_icon_color">#ffffff</color>
+package android.content;
 
-    <color name="legacy_icon_background">#FFFFFF</color>
-
-    <color name="powersave_warning_color">#ff000000</color><!-- rgb 0 0 0 -->
-</resources>
+parcelable FontInfo;

@@ -4764,6 +4764,20 @@ public final class Settings {
          */
         public static final String SHOW_USB_MODE_DIALOG = "show_usb_mode_dialog";
 
+        /**
+         * Hold current font name and name of the originating package Uses "|" as a delimiter
+         *
+         * @hide
+         */
+        public static final String FONT_INFO = "font_info";
+
+        /**
+         * Hold list of installed font provider packages. Uses "|" as a delimiter
+         *
+         * @hide
+         */
+        public static final String FONT_PACKAGES = "font_packages";
+
         /** End of VALIDUS system settings**/
 
         /**
@@ -4816,6 +4830,12 @@ public final class Settings {
          * @hide
          */
         public static final String SHOW_LOCKSCREEN_ALARM = "show_lockscreen_alarm";
+
+        /**
+         * Apps to hide in the ChooserActivity
+         * @hide
+         */
+        public static final String CHOOSER_ACTIVITY_BLACKLIST = "chooser_activity_blacklist";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
