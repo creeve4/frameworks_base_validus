@@ -264,7 +264,7 @@ public class KeyguardStatusView extends GridLayout {
             mAlarmStatusView.setText(alarm);
             mAlarmStatusView.setContentDescription(
                     getResources().getString(R.string.keyguard_accessibility_next_alarm, alarm));
-            mAvailableAlarm = true;
+            mAvailableAlarm = false;
         } else {
             mAvailableAlarm = false;
         }
