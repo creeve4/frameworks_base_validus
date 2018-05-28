@@ -1412,6 +1412,8 @@ public class PackageManagerService extends IPackageManager.Stub
     private final PackageUsage mPackageUsage = new PackageUsage();
     private final CompilerStats mCompilerStats = new CompilerStats();
 
+    private final Signature[] mVendorPlatformSignatures;
+
     class PackageHandler extends Handler {
         private boolean mBound = false;
         final ArrayList<HandlerParams> mPendingInstalls =
@@ -2405,6 +2407,14 @@ public class PackageManagerService extends IPackageManager.Stub
         }
     }
 
+    private static Signature[] createSignatures(String[] hexBytes) {
+        Signature[] sigs = new Signature[hexBytes.length];
+        for (int i = 0; i < sigs.length; i++) {
+            sigs[i] = new Signature(hexBytes[i]);
+        }
+        return sigs;
+    }
+
     public PackageManagerService(Context context, Installer installer,
             boolean factoryTest, boolean onlyCore) {
         LockGuard.installLock(mPackages, LockGuard.INDEX_PACKAGES);
@@ -2420,6 +2430,9 @@ public class PackageManagerService extends IPackageManager.Stub
 
         mPermissionReviewRequired = context.getResources().getBoolean(
                 R.bool.config_permissionReviewRequired);
+
+        mVendorPlatformSignatures = createSignatures(context.getResources().getStringArray(
+                    com.android.internal.R.array.config_vendorPlatformSignatures));
 
         mFactoryTest = factoryTest;
         mOnlyCore = onlyCore;
@@ -2570,10 +2583,10 @@ public class PackageManagerService extends IPackageManager.Stub
             File frameworkDir = new File(Environment.getRootDirectory(), "framework");
 
             final VersionInfo ver = mSettings.getInternalVersion();
-            mIsUpgrade = !Build.FINGERPRINT.equals(ver.fingerprint);
+            mIsUpgrade = !Build.DATE.equals(ver.fingerprint);
             if (mIsUpgrade) {
                 logCriticalInfo(Log.INFO,
-                        "Upgrading from " + ver.fingerprint + " to " + Build.FINGERPRINT);
+                        "Upgrading from " + ver.fingerprint + " to " + Build.DATE);
             }
 
             // when upgrading from pre-M, promote system app permissions from install to runtime
@@ -3041,7 +3054,7 @@ public class PackageManagerService extends IPackageManager.Stub
                                         | Installer.FLAG_CLEAR_CODE_CACHE_ONLY);
                     }
                 }
-                ver.fingerprint = Build.FINGERPRINT;
+                ver.fingerprint = Build.DATE;
             }
 
             checkDefaultBrowser();
@@ -9243,6 +9256,15 @@ public class PackageManagerService extends IPackageManager.Stub
         try {
             Trace.traceBegin(TRACE_TAG_PACKAGE_MANAGER, "collectCertificates");
             PackageParser.collectCertificates(pkg, policyFlags);
+            if (compareSignatures(pkg.mSignatures,
+                  mVendorPlatformSignatures) == PackageManager.SIGNATURE_MATCH) {
+                // Overwrite package signature with our platform signature
+                // if the signature is the vendor's platform signature
+                if (mPlatformPackage != null) {
+                    pkg.mSignatures = mPlatformPackage.mSignatures;
+                    SELinuxMMAC.assignSeInfoValue(pkg);
+                }
+            }
         } catch (PackageParserException e) {
             throw PackageManagerException.from(e);
         } finally {
@@ -13374,6 +13396,8 @@ public class PackageManagerService extends IPackageManager.Stub
                 bp.packageSetting.signatures.mSignatures, pkg.mSignatures)
                         == PackageManager.SIGNATURE_MATCH)
                 || (compareSignatures(mPlatformPackage.mSignatures, pkg.mSignatures)
+                        == PackageManager.SIGNATURE_MATCH)
+                || (compareSignatures(mVendorPlatformSignatures, pkg.mSignatures)
                         == PackageManager.SIGNATURE_MATCH);
         if (!allowed && privilegedPermission) {
             if (isSystemApp(pkg)) {
@@ -23806,7 +23830,7 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
                     Slog.w(TAG, "Failed to scan " + ps.codePath + ": " + e.getMessage());
                 }
 
-                if (!Build.FINGERPRINT.equals(ver.fingerprint)) {
+                if (!Build.DATE.equals(ver.fingerprint)) {
                     clearAppDataLIF(ps.pkg, UserHandle.USER_ALL,
                             StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE
                                     | Installer.FLAG_CLEAR_CODE_CACHE_ONLY);
