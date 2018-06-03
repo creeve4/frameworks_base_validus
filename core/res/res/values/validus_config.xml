@@ -72,4 +72,13 @@
     <!-- Whether the device supports Smart Pixels -->
     <bool name="config_enableSmartPixels">false</bool>
 
+    <!-- EdgeGesture service --> 
+    <java-symbol type="dimen" name="edge_gesture_trigger_distance" /> 
+    <java-symbol type="dimen" name="edge_gesture_perpendicular_distance" /> 
+    <java-symbol type="dimen" name="edge_gesture_trigger_thickness" /> 
+   
+    <!-- Full screen aspect ratio --> 
+    <bool name="config_haveHigherAspectRatioScreen">false</bool> 
+    <item name="config_screenAspectRatio" format="float" type="dimen">2.1</item>
+
 </resources>
